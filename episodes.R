@@ -127,7 +127,8 @@ for (year in years) {
 episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   lapply(read_csv) %>%
   bind_rows() %>%
-  mutate(description = trimws(sub('Learn more.*adchoices$', '', description))) %>%
+  mutate(description = sub('Learn more.*adchoices$', '', description),
+         description = trimws(gsub(' |[ ]+', ' ', description))) %>%
   arrange(date)
 
 # Save episode list
