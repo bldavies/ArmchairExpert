@@ -20,7 +20,7 @@ This table has five columns:
 * `id`: Episode ID on Spotify.
 * `date`: Episode release date (in YYYY-MM-DD format).
 * `title`: Episode title.
-* `duration_ms`: Episode length (in milliseconds).
+* `duration`: Episode length (in seconds).
 * `description`: Episode description.
 
 Finally, I save the R session information to [`episodes.log`](episodes.log).

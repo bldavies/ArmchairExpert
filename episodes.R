@@ -113,7 +113,7 @@ for (year in years) {
           id = x$id,
           date = x$release_date,
           title = x$name,
-          duration_ms = x$duration_ms,
+          duration = round(x$duration_ms / 1e3),
           description = x$description
         )
       }) %>%
