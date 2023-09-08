@@ -1,0 +1,139 @@
+# EPISODES.R
+#
+# This script uses the Spotify API to create a list of Armchair Expert episodes.
+#
+# Ben Davies
+# September 2022
+
+
+# Initialization ----
+
+# Load packages
+library(bldr)
+library(dplyr)
+library(httr)
+library(jsonlite)
+library(readr)
+library(yaml)
+
+# Initialize cache
+cache_dir = 'episodes/'
+if (!dir.exists(cache_dir)) dir.create(cache_dir)
+
+
+# API requests ----
+
+# Import credentials
+credentials = read_yaml('credentials.yaml')
+
+# Authenticate
+token = oauth2.0_token(
+  endpoint = oauth_endpoint(
+    request = NULL,
+    authorize = 'https://accounts.spotify.com/authorize',
+    access = 'https://accounts.spotify.com/api/token'
+  ),
+  app = oauth_app('spotify', credentials$client_id, credentials$secret),
+  as_header = T
+)
+
+# Download episode data
+i = 0
+done = F
+while (!done) {
+  
+  # Send GET request
+  req = GET(
+    url = paste0(
+      'https://api.spotify.com/v1',
+      '/shows/',
+      '6kAsbP8pxwaU2kPibKTuHE',
+      '/episodes'
+    ),
+    config = token,
+    query = list(limit = 50, offset = i)
+  ) %>%
+    content(as = 'parsed')
+  
+  # Iterate over episodes
+  for (episode in req$items) {
+    
+    # Initialize cache
+    episode_cache_dir = paste0(
+      cache_dir,
+      sub('([0-9]{4})-([0-9]{2}).*', '\\1/\\2/', episode$release_date)
+    )
+    if (!dir.exists(episode_cache_dir)) dir.create(episode_cache_dir, recursive = T)
+    
+    # Save data to cache
+    episode_cache_path = paste0(episode_cache_dir, episode$id, '.json')
+    if (!file.exists(episode_cache_path)) {
+      episode %>%
+        toJSON(auto_unbox = T, pretty = T) %>%
+        write_lines(episode_cache_path)
+    }
+    
+  }
+  
+  # Count cached episodes
+  n_cached_episodes = cache_dir %>%
+    dir(pattern = '[.]json', recursive = T) %>%
+    length()
+  
+  # Increase offset
+  i = i + 50
+  
+  # Check stopping condition
+  if (n_cached_episodes == req$total | i >= req$total) {
+    done = T
+  }
+  
+  # Pause
+  Sys.sleep(3)
+
+}
+
+
+# Data collation and export ----
+
+# Iterate over years
+years = list.dirs(cache_dir, full.names = F, recursive = F)
+for (year in years) {
+  
+  # List cached files
+  files = dir(paste0(cache_dir, '/', year), full.names = T, recursive = T)
+  
+  # Combine cached files
+  cache_path = paste0(cache_dir, year, '.csv')
+  if (!file.exists(cache_path) | max(file.mtime(files)) > file.mtime(cache_path)) {
+    files %>%
+      lapply(read_json) %>%
+      lapply(\(x) {
+        tibble(
+          id = x$id,
+          date = x$release_date,
+          title = x$name,
+          duration_ms = x$duration_ms,
+          description = x$description
+        )
+      }) %>%
+      bind_rows() %>%
+      arrange(date) %>%
+      write_csv(cache_path)
+  }
+}
+
+# Combine yearly episode lists
+episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
+  lapply(read_csv) %>%
+  bind_rows() %>%
+  arrange(date)
+
+# Save episode list
+write_csv(episodes, 'episodes.csv')
+
+
+# Session info ----
+
+# Save session info
+save_session_info('episodes.log')

@@ -1,1 +1,6 @@
 _*
+.httr-oauth
+.Rproj.user
+*.Rproj
+episodes
+credentials.yaml
