@@ -14,7 +14,7 @@ secret: xxxxx
 ```
 
 I store each episode's data in `episodes/`.
-I combine these data into a single table, which I export to [`episodes.csv`](episodes.csv').
+I combine these data into a single table, which I export to [`episodes.csv`](episodes.csv).
 This table has five columns:
 
 * `id`: Episode ID on Spotify.
