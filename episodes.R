@@ -125,14 +125,26 @@ for (year in years) {
 
 # Combine yearly episode lists
 episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
-  lapply(read_csv) %>%
+  lapply(read_csv, show_col_types = F) %>%
   bind_rows() %>%
   mutate(description = sub('Learn more.*adchoices$', '', description),
-         description = trimws(gsub(' |[ ]+', ' ', description))) %>%
+         description = trimws(gsub(' |[ ]+', ' ', description)),
+         series = case_when(
+           grepl('Armchair Anonymous', title) ~ 'Armchair Anonymous',
+           grepl('Armchaired & Dangerous', title) ~ 'Armchaired & Dangerous',
+           grepl('Flightless Bird', title) ~ 'Flightless Bird',
+           grepl('Monica (and|&) Jess', title) ~ 'Monica & Jess Love Boys',
+           grepl('Nurture vs Nurture', title) ~ 'Nurture vs Nurture',
+           grepl('Race to 270', title) ~ 'Race to 270',
+           grepl('Race to 35', title) ~ 'Race to 35',
+           grepl('Synced', title) ~ 'Synced',
+           grepl('We are supported by', title, ignore.case = T) ~ 'We Are Supported By...',
+           T ~ NA
+        )) %>%
   arrange(date)
 
 # Save episode list
-write_csv(episodes, 'episodes.csv')
+write_csv(episodes, 'episodes.csv', na = '')
 
 
 # Session info ----
