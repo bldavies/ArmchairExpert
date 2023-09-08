@@ -141,7 +141,7 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
            grepl('We are supported by', title, ignore.case = T) ~ 'We Are Supported By...',
            T ~ NA
         )) %>%
-  arrange(date)
+  arrange(date, series, duration)
 
 # Save episode list
 write_csv(episodes, 'episodes.csv', na = '')
