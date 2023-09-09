@@ -22,7 +22,7 @@ This table has five columns:
 * `title`: Episode title.
 * `duration`: Episode length (in seconds).
 * `description`: Episode description.
-* `series`: Series to which episode belongs ([Armchair Anonymous](https://armchairexpertpod.com/armchair-anonymous), [Armchaired & Dangerous](https://armchairexpertpod.com/armchaired-dangerous), [Flightless Bird](https://armchairexpertpod.com/flightless-bird), [Monica & Jess Love Boys](https://armchairexpertpod.com/monica-jess-love-boys), [Nurture vs Nurture](https://armchairexpertpod.com/nurture-vs-nurture-with-dr-mogel), [Race to 270](https://armchairexpertpod.com/race-to-270), Race to 35, [Synced](https://armchairexpertpod.com/synced), or [We Are Supported By...](https://armchairexpertpod.com/we-are-supported-by)), if applicable.
+* `show`: Show to which episode belongs ([Armchair Anonymous](https://armchairexpertpod.com/armchair-anonymous), [Armchaired & Dangerous](https://armchairexpertpod.com/armchaired-dangerous), [Flightless Bird](https://armchairexpertpod.com/flightless-bird), [Monica & Jess Love Boys](https://armchairexpertpod.com/monica-jess-love-boys), [Nurture vs Nurture](https://armchairexpertpod.com/nurture-vs-nurture-with-dr-mogel), [Race to 270](https://armchairexpertpod.com/race-to-270), Race to 35, [Synced](https://armchairexpertpod.com/synced), or [We Are Supported By...](https://armchairexpertpod.com/we-are-supported-by)), if applicable.
 
 Finally, I save the R session information to [`episodes.log`](episodes.log).
 

@@ -129,7 +129,7 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   bind_rows() %>%
   mutate(description = sub('Learn more.*adchoices$', '', description),
          description = trimws(gsub(' |[ ]+', ' ', description)),
-         series = case_when(
+         show = case_when(
            grepl('Armchair Anonymous', title) ~ 'Armchair Anonymous',
            grepl('Armchaired & Dangerous', title) ~ 'Armchaired & Dangerous',
            grepl('Flightless Bird', title) ~ 'Flightless Bird',
@@ -141,7 +141,7 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
            grepl('We are supported by', title, ignore.case = T) ~ 'We Are Supported By...',
            T ~ NA
         )) %>%
-  arrange(date, series, duration)
+  arrange(date, show, duration)
 
 # Save episode list
 write_csv(episodes, 'episodes.csv', na = '')
