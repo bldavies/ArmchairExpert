@@ -28,4 +28,4 @@ Finally, I save the R session information to [`episodes.log`](episodes.log).
 
 ## License
 
-C00
+CC0
