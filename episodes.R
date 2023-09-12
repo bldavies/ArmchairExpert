@@ -123,6 +123,18 @@ for (year in years) {
   }
 }
 
+# Define function for replacing non-ASCII characters with ASCII equivalents
+replace_non_ascii = function(s) {
+  subfun = function(x, pattern, y) gsub(pattern, y, x, perl = TRUE)
+  s %>%
+    subfun('’', '\'') %>%
+    subfun('“', '"') %>%
+    subfun('”', '"') %>%
+    subfun('…', '...') %>%
+    subfun('–', '-') %>%
+    subfun(' |​', ' ')
+}
+
 # List bonus episode IDs
 bonus_ids = c(
   '0uINgYvOn1sWNw7COXFkih',  # BONUS: Malcolm Gladwell
@@ -139,8 +151,9 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   bind_rows() %>%
   filter(!grepl('Nurture vs Nurture', title)) %>%
   filter(!grepl('Teaser', title)) %>%
-  mutate(description = sub('Learn more.*adchoices$', '', description),
-         description = trimws(gsub(' |[ ]+', ' ', description)),
+  mutate(across(c(title, description), replace_non_ascii),
+         description = sub('Learn more.*adchoices$', '', description),
+         description = trimws(gsub('[ ]+', ' ', description)),
          show = case_when(
            grepl('Armchair Anonymous', title) ~ 'Armchair Anonymous',
            grepl('Armchaired & Dangerous', title) ~ 'Armchaired & Dangerous',
