@@ -23,6 +23,7 @@ This table has five columns:
 * `duration`: Episode length (in seconds).
 * `description`: Episode description.
 * `show`: Show to which episode belongs ([Armchair Anonymous](https://armchairexpertpod.com/armchair-anonymous), [Armchaired & Dangerous](https://armchairexpertpod.com/armchaired-dangerous), [Flightless Bird](https://armchairexpertpod.com/flightless-bird), [Monica & Jess Love Boys](https://armchairexpertpod.com/monica-jess-love-boys), [Race to 270](https://armchairexpertpod.com/race-to-270), Race to 35, [Synced](https://armchairexpertpod.com/synced), or [We Are Supported By...](https://armchairexpertpod.com/we-are-supported-by)), if applicable.
+* `number`: Within-show episode number, if applicable.
 
 Finally, I save the R session information to [`episodes.log`](episodes.log).
 

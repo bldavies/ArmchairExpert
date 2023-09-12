@@ -123,6 +123,16 @@ for (year in years) {
   }
 }
 
+# List bonus episode IDs
+bonus_ids = c(
+  '0uINgYvOn1sWNw7COXFkih',  # BONUS: Malcolm Gladwell
+  '1SGO25Ikj9GkWKyxhN7WUw',  # Day 7
+  '0n0H8I7FPlaP1yYPsRoOES',  # Celebrating the GOAT GOD
+  '3u74UmGJkDpSwepsRcCCcB',  # Bill Gates Book Talk
+  '2wHvspaasccybD3ezCTdLb',  # Bonus: Armchair Stories
+  '4vleawhXG7g3QihtAfd08G'   # Father's Day
+)
+
 # Combine yearly episode lists
 episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   lapply(read_csv, show_col_types = F) %>%
@@ -141,8 +151,18 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
            grepl('Synced', title) ~ 'Synced',
            grepl('We are supported by', title, ignore.case = T) ~ 'We Are Supported By...',
            T ~ NA
+        ),
+        series = case_when(
+          id %in% bonus_ids ~ 'Bonus',
+          show %in% c('Armchair Anonymous', 'Armchaired & Dangerous', NA) ~ 'Main',
+          grepl('^Introducing', title) ~ 'Intro',
+          T ~ show
         )) %>%
-  arrange(date, show, duration)
+  arrange(date, show, duration) %>%
+  group_by(series) %>%
+  mutate(number = ifelse(series %in% c('Bonus', 'Intro'), NA, row_number())) %>%
+  ungroup() %>%
+  select(-series)
 
 # Save episode list
 write_csv(episodes, 'episodes.csv', na = '')

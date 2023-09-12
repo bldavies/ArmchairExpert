@@ -42,6 +42,7 @@
  utf8          1.2.3   2023-01-31 [1] CRAN (R 4.3.0)
  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.3.0)
  vroom         1.6.3   2023-04-28 [1] CRAN (R 4.3.0)
+ withr         2.5.0   2022-03-03 [1] CRAN (R 4.3.0)
  yaml        * 2.3.7   2023-01-23 [1] CRAN (R 4.3.0)
 
  [1] /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library
