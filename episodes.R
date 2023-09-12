@@ -128,6 +128,7 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   lapply(read_csv, show_col_types = F) %>%
   bind_rows() %>%
   filter(!grepl('Nurture vs Nurture', title)) %>%
+  filter(!grepl('Teaser', title)) %>%
   mutate(description = sub('Learn more.*adchoices$', '', description),
          description = trimws(gsub(' |[ ]+', ' ', description)),
          show = case_when(
