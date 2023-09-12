@@ -162,7 +162,7 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   group_by(series) %>%
   mutate(number = ifelse(series %in% c('Bonus', 'Intro'), NA, row_number())) %>%
   ungroup() %>%
-  select(-series)
+  select(id, date, title, show, number, duration, description)
 
 # Save episode list
 write_csv(episodes, 'episodes.csv', na = '')
