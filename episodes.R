@@ -127,6 +127,7 @@ for (year in years) {
 episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   lapply(read_csv, show_col_types = F) %>%
   bind_rows() %>%
+  filter(!grepl('Nurture vs Nurture', title)) %>%
   mutate(description = sub('Learn more.*adchoices$', '', description),
          description = trimws(gsub(' |[ ]+', ' ', description)),
          show = case_when(
@@ -134,7 +135,6 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
            grepl('Armchaired & Dangerous', title) ~ 'Armchaired & Dangerous',
            grepl('Flightless Bird', title) ~ 'Flightless Bird',
            grepl('Monica (and|&) Jess', title) ~ 'Monica & Jess Love Boys',
-           grepl('Nurture vs Nurture', title) ~ 'Nurture vs Nurture',
            grepl('Race to 270', title) ~ 'Race to 270',
            grepl('Race to 35', title) ~ 'Race to 35',
            grepl('Synced', title) ~ 'Synced',
