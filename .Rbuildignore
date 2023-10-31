@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^\.httr-oauth$
+^credentials.yaml$
+^Makefile$
+^README.md$

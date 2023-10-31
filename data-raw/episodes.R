@@ -3,21 +3,21 @@
 # This script uses the Spotify API to create a list of Armchair Expert episodes.
 #
 # Ben Davies
-# September 2022
+# October 2023
 
 
 # Initialization ----
 
 # Load packages
-library(bldr)
 library(dplyr)
 library(httr)
 library(jsonlite)
 library(readr)
 library(yaml)
+library(usethis)
 
 # Initialize cache
-cache_dir = 'episodes/'
+cache_dir = 'data-raw/episodes/'
 if (!dir.exists(cache_dir)) dir.create(cache_dir)
 
 
@@ -178,10 +178,13 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   select(id, date, title, show, number, duration, description)
 
 # Save episode list
-write_csv(episodes, 'episodes.csv', na = '')
+write_csv(episodes, 'data-raw/episodes.csv', na = '')
+use_data(episodes, overwrite = T)
 
 
 # Session info ----
 
 # Save session info
-save_session_info('episodes.log')
+if ('bldr' %in% rownames(installed.packages())) {
+  bldr::save_session_info('data-raw/episodes.log')
+}
