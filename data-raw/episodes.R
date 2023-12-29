@@ -3,7 +3,7 @@
 # This script uses the Spotify API to create a list of Armchair Expert episodes.
 #
 # Ben Davies
-# October 2023
+# December 2023
 
 
 # Initialization ----
@@ -149,6 +149,7 @@ bonus_ids = c(
 episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
   lapply(read_csv, show_col_types = F) %>%
   bind_rows() %>%
+  filter(!grepl('eff won:', title)) %>%
   filter(!grepl('Nurture vs Nurture', title)) %>%
   filter(!grepl('Teaser', title)) %>%
   mutate(across(c(title, description), replace_non_ascii),
@@ -163,18 +164,20 @@ episodes = dir(cache_dir, pattern ='[.]csv', full.names = T, recursive = F) %>%
            grepl('Race to 35', title) ~ 'Race to 35',
            grepl('Synced', title) ~ 'Synced',
            grepl('We are supported by', title, ignore.case = T) ~ 'We Are Supported By...',
+           grepl('Yearbook', title) ~ 'Yearbook',
            T ~ NA
         ),
         series = case_when(
           id %in% bonus_ids ~ 'Bonus',
           show %in% c('Armchair Anonymous', 'Armchaired & Dangerous', NA) ~ 'Main',
-          grepl('^Introducing', title) ~ 'Intro',
+          grepl('^(Introducing|Welcome)', title) ~ 'Intro',
           T ~ show
         )) %>%
   arrange(date, show, duration) %>%
   group_by(series) %>%
   mutate(number = ifelse(series %in% c('Bonus', 'Intro'), NA, row_number())) %>%
   ungroup() %>%
+  arrange(date, show, !is.na(number)) %>%
   select(id, date, title, show, number, duration, description)
 
 # Save episode list

@@ -1,14 +1,14 @@
 ─ Session info ───────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.3.0 (2023-04-21)
- os       macOS Ventura 13.5.2
+ os       macOS 14.1.2
  system   x86_64, darwin20
  ui       X11
  language (EN)
  collate  en_NZ.UTF-8
  ctype    en_NZ.UTF-8
  tz       America/Los_Angeles
- date     2023-10-31
+ date     2023-12-29
  pandoc   2.14.2 @ /usr/local/bin/pandoc
 
 ─ Packages ───────────────────────────────────────────────────────────────────
