@@ -17,6 +17,10 @@ secret: xxxxx
 I store each episode's data in `data-raw/episodes/`.
 I combine these data into a single table, which I export to [`data-raw/episodes.csv`](data-raw/episodes.csv) and `data/episodes.rda`.
 
+## Usage
+
+See [my blog post](https://bldavies.com/blog/armchair-expert-episodes/) for examples.
+
 ## License
 
 CC0
