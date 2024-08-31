@@ -1,14 +1,14 @@
 ─ Session info ───────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.4.1 (2024-06-14)
- os       macOS Sonoma 14.5
+ os       macOS Sonoma 14.6.1
  system   x86_64, darwin20
  ui       X11
  language (EN)
  collate  en_NZ.UTF-8
  ctype    en_NZ.UTF-8
  tz       America/Los_Angeles
- date     2024-08-17
+ date     2024-08-31
  pandoc   2.14.2 @ /usr/local/bin/pandoc
 
 ─ Packages ───────────────────────────────────────────────────────────────────
